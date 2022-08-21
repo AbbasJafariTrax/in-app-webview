@@ -43,13 +43,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.16.0"
-  cupertino_icons:
-    dependency: "direct main"
-    description:
-      name: cupertino_icons
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.5"
   fake_async:
     dependency: transitive
     description:
@@ -87,19 +80,12 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_webview_plugin:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_webview_plugin
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.0"
-  in_app_webview:
-    dependency: "direct main"
-    description:
-      path: ".."
-      relative: true
-    source: path
-    version: "0.0.1"
   js:
     dependency: transitive
     description:
@@ -157,7 +143,7 @@ packages:
     source: hosted
     version: "2.1.2"
   share_plus:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: share_plus
       url: "https://pub.dartlang.org"

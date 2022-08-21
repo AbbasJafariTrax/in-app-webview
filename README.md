@@ -2,7 +2,7 @@
 
 Simple in app browser for you application.
 
-<img src="https://github.com/AbbasJafariTrax/InAppBrowserPackage/blob/master/assets/images/browse_in.jpg" height=512px width=236px>
+<img src="https://github.com/AbbasJafariTrax/in-app-webview/blob/master/assets/images/browse_in.jpg" height=512px width=236px>
 
 ## Getting Started
 
@@ -110,11 +110,11 @@ this.titleTextStyle
 Abbas Jafari - [@Abbas Jafari](https://www.linkedin.com/in/abbas-jafari-1355531b5/)
 
 Git repository of this package
-[git_repository](https://github.com/AbbasJafariTrax/InAppBrowserPackage/)
+[git_repository](https://github.com/AbbasJafariTrax/in-app-webview/)
 
 ### Contributing
 
-1. Fork it (https://github.com/AbbasJafariTrax/InAppBrowserPackage/fork)
+1. Fork it (https://github.com/AbbasJafariTrax/in-app-webview/fork)
 2. Create your feature branch (git checkout -b feature/fooBar)
 3. Commit your changes (git commit -am 'Add some fooBar')
 4. Push to the branch (git push origin feature/fooBar)

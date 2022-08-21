@@ -1,7 +1,7 @@
 name: in_app_webview
-description: Create in app browser for your URL.
+description: Launch your URL inside a webview.
 version: 0.0.1
-homepage: https://github.com/AbbasJafariTrax/InAppBrowserPackage
+homepage: https://github.com/AbbasJafariTrax/in-app-webview
 
 environment:
   sdk: ">=2.17.3 <3.0.0"
