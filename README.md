@@ -1,6 +1,6 @@
 # in_app_webview
 
-Simple in app browser for you application.
+Simple in app web view for you application.
 
 <img src="https://raw.githubusercontent.com/AbbasJafariTrax/in-app-webview/e22088c4cc0881f073c5f47589cbefe7f6414516/assets/images/browse_in.jpg" height=512px width=236px>
 
@@ -15,8 +15,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-
   @override
   void initState() {
     super.initState();
@@ -29,36 +27,38 @@ class _MyAppState extends State<MyApp> {
       home: InAppWebView(
         "https://www.google.com/",
         mDirection: TextDirection.ltr,
-        appBarBGColor: Color(0xFF262626),
-        bottomNavColor: Color(0xFF262626),
-        showAppTitle: true,
-        backIcon: Icon(Icons.arrow_back_ios, color: Colors.white),
-        nextIcon: Icon(Icons.arrow_forward_ios, color: Colors.white),
-        closeIcon: Icon(Icons.close, color: Colors.white),
-        shareIcon: Icon(Icons.share, color: Colors.white),
-        refreshIcon: Icon(Icons.refresh, color: Colors.white),
-        actionWidget: [],
-        actionsIconTheme: IconThemeData(),
+        appBarBGColor: const Color(0xFF262626),
+        bottomNavColor: const Color(0xFF262626),
+        defaultTitle: true,
+        backIcon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+        nextIcon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+        closeIcon: const Icon(Icons.close, color: Colors.white),
+        shareIcon: const Icon(Icons.share, color: Colors.white),
+        refreshIcon: const Icon(Icons.refresh, color: Colors.white),
+        actionWidget: const [],
+        actionsIconTheme: const IconThemeData(),
         centerTitle: true,
-        titleTextStyle: TextStyle(),
-        toolbarTextStyle: TextStyle(),
+        titleTextStyle: const TextStyle(),
+        toolbarTextStyle: const TextStyle(),
         toolbarHeight: 56,
       ),
     );
   }
 }
-
 ```
 
 ### InAppWebView parameters
 
-[mUrl] which is loaded and displayed by web view and it will be shown on the appbar and shared by
+`mUrl` param which is loaded and displayed by web view and it will be shown on the appbar and shared by
 share button.
 
 ```this.mUrl```
 ```Key key```
+
 To change the direction of web view
+
 ```this.mDirection = TextDirection.ltr```
+
 Bottom Sheet Icons
 
 ```
@@ -69,8 +69,11 @@ this.refreshIcon
 ```
 
 Bottom Sheet Size
+
 ```this.btmSheetSize = 56```
+
 Bottom Sheet Shape
+
 ```this.btmSheetShape```
 
 AppBar Parameters
