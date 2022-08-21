@@ -2,7 +2,7 @@
 
 Simple in app browser for you application.
 
-<img src="https://github.com/AbbasJafariTrax/in-app-webview/blob/master/assets/images/browse_in.jpg" height=512px width=236px>
+<img src="https://github.com/AbbasJafariTrax/in-app-webview/blob/main/assets/images/browse_in.jpg" height=512px width=236px>
 
 ## Getting Started
 
