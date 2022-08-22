@@ -108,6 +108,22 @@ this.toolbarTextStyle
 this.titleTextStyle
 ```
 
+Web view parameters
+
+```
+this.webViewDebugging
+this.webViewAllowsInlineMediaPlayback
+this.webViewGestureNavigationEnabled
+this.webViewZoomEnabled
+this.webViewBGColor
+```
+
+```
+this.closeIcon
+this.appBarBGColor = Colors.white
+this.bottomNavColor = Colors.white
+```
+
 ### Meta
 
 Abbas Jafari - [@Abbas Jafari](https://www.linkedin.com/in/abbas-jafari-1355531b5/)
