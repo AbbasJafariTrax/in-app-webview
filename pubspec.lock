@@ -82,10 +82,12 @@ packages:
   flutter_webview_plugin:
     dependency: "direct main"
     description:
-      name: flutter_webview_plugin
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.0"
+      path: "."
+      ref: master
+      resolved-ref: "386de8cef3097226a5900dd6c959d5b70693e62a"
+      url: "https://github.com/Bhagat8533/flutter_webview_plugin"
+    source: git
+    version: "0.1.0"
   js:
     dependency: transitive
     description:

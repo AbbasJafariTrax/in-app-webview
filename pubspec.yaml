@@ -10,7 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_webview_plugin: ^0.4.0
+
+  flutter_webview_plugin:
+    git:
+      url: https://github.com/Bhagat8533/flutter_webview_plugin # Repo
+      ref: master  # Branch name
   share_plus: ^4.0.10+1
 
 dev_dependencies:
