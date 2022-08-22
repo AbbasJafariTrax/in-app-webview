@@ -1,6 +1,6 @@
 # in_app_webview
 
-Simple in app web view for you application.
+Simple in-app web view for your application.
 
 <img src="https://raw.githubusercontent.com/AbbasJafariTrax/in-app-webview/e22088c4cc0881f073c5f47589cbefe7f6414516/assets/images/browse_in.jpg" height=512px width=236px>
 
@@ -55,7 +55,7 @@ share button.
 ```this.mUrl```
 ```Key key```
 
-To change the direction of web view
+To change the direction of the web view
 
 ```this.mDirection = TextDirection.ltr```
 
