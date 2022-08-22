@@ -108,6 +108,12 @@ this.toolbarTextStyle
 this.titleTextStyle
 ```
 
+```
+this.closeIcon
+this.appBarBGColor = Colors.white
+this.bottomNavColor = Colors.white
+```
+
 Web view parameters
 
 ```
@@ -116,12 +122,6 @@ this.webViewAllowsInlineMediaPlayback
 this.webViewGestureNavigationEnabled
 this.webViewZoomEnabled
 this.webViewBGColor
-```
-
-```
-this.closeIcon
-this.appBarBGColor = Colors.white
-this.bottomNavColor = Colors.white
 ```
 
 ### Meta
