@@ -106,7 +106,6 @@ class _InAppWebViewState extends State<InAppWebView>
     // TODO: implement initState
     super.initState();
     if (Platform.isAndroid) WebView.platform = AndroidWebView();
-
   }
 
   @override
@@ -198,8 +197,13 @@ class _InAppWebViewState extends State<InAppWebView>
 
                 /// share the current link
                 IconInkWell(
-                  func: () {
-                    Share.share(widget.mUrl);
+                  func: () async {
+                    WebViewController webViewController =
+                        await _controller.future;
+                    String getCurrentUrl =
+                        await webViewController.currentUrl() ?? widget.mUrl;
+
+                    Share.share(getCurrentUrl);
                   },
                   iconWidget: widget.shareIcon,
                 ),
