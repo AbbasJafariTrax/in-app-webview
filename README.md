@@ -117,11 +117,11 @@ this.bottomNavColor = Colors.white
 Web view parameters
 
 ```
-this.webViewDebugging
-this.webViewAllowsInlineMediaPlayback
-this.webViewGestureNavigationEnabled
-this.webViewZoomEnabled
-this.webViewBGColor
+this.webViewDebugging = false
+this.webViewAllowsInlineMediaPlayback = false
+this.webViewGestureNavigationEnabled = false
+this.webViewZoomEnabled = true
+this.webViewBGColor = Colors.transparent
 ```
 
 ### Meta
