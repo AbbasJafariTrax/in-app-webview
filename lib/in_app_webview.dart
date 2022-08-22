@@ -1,10 +1,13 @@
 library in_app_webview;
 
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:in_app_webview/widgets/IconInkWell.dart';
 import 'package:in_app_webview/widgets/IconWidget.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 /// Write comment and a great docs
 /// change the name of package
@@ -44,6 +47,14 @@ class InAppWebView extends StatefulWidget {
   final double titleSpacing, toolbarHeight, leadingWidth, elevationVal;
   final TextStyle toolbarTextStyle, titleTextStyle;
 
+  // Web view parameters
+
+  final Color webViewBGColor;
+  final bool webViewDebugging,
+      webViewAllowsInlineMediaPlayback,
+      webViewGestureNavigationEnabled,
+      webViewZoomEnabled;
+
   InAppWebView(
     this.mUrl, {
     Key? key,
@@ -74,6 +85,11 @@ class InAppWebView extends StatefulWidget {
     this.btmSheetSize = 56,
     this.borderRadiusGeometry = const BorderRadius.all(Radius.circular(0)),
     this.borderSide = const BorderSide(),
+    this.webViewDebugging = false,
+    this.webViewAllowsInlineMediaPlayback = false,
+    this.webViewGestureNavigationEnabled = false,
+    this.webViewZoomEnabled = true,
+    this.webViewBGColor = Colors.transparent,
   }) : super(key: key);
 
   @override
@@ -82,131 +98,126 @@ class InAppWebView extends StatefulWidget {
 
 class _InAppWebViewState extends State<InAppWebView>
     with TickerProviderStateMixin {
-  final flutterWebViewPlugin = FlutterWebviewPlugin();
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    if (Platform.isAndroid) WebView.platform = AndroidWebView();
 
-    // onChange listener is used to change the value of mUrl variable
-    flutterWebViewPlugin.onUrlChanged.forEach((element) {
-      widget.mUrl = element;
-      setState(() {});
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      key: widget.key,
-      onWillPop: () async {
-        mDispose();
-        return true;
-      },
-      child: Directionality(
-        textDirection: widget.mDirection,
-        child: WebviewScaffold(
-          /// App bar screen
-          appBar: AppBar(
-            actions: widget.actionWidget,
-            centerTitle: widget.centerTitle,
-            primary: widget.primary,
-            excludeHeaderSemantics: widget.excludeHeaderSemantics,
-            elevation: widget.elevationVal,
-            backgroundColor: widget.appBarBGColor,
-            foregroundColor: widget.appBarFGColor,
-            shadowColor: widget.shadowColor,
-            iconTheme: widget.iconTheme,
-            actionsIconTheme: widget.actionsIconTheme,
-            titleSpacing: widget.titleSpacing,
-            toolbarHeight: widget.toolbarHeight,
-            leadingWidth: widget.leadingWidth,
-            toolbarTextStyle: widget.toolbarTextStyle,
-            titleTextStyle: widget.titleTextStyle,
-            title: widget.defaultTitle
-                ? Text(
-                    widget.mUrl,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  )
-                : widget.titleWidget,
-            leading: IconInkWell(
-              func: mDispose,
-              iconWidget: widget.closeIcon,
-            ),
+    return Directionality(
+      textDirection: widget.mDirection,
+      child: Scaffold(
+        appBar: AppBar(
+          actions: widget.actionWidget,
+          centerTitle: widget.centerTitle,
+          primary: widget.primary,
+          excludeHeaderSemantics: widget.excludeHeaderSemantics,
+          elevation: widget.elevationVal,
+          backgroundColor: widget.appBarBGColor,
+          foregroundColor: widget.appBarFGColor,
+          shadowColor: widget.shadowColor,
+          iconTheme: widget.iconTheme,
+          actionsIconTheme: widget.actionsIconTheme,
+          titleSpacing: widget.titleSpacing,
+          toolbarHeight: widget.toolbarHeight,
+          leadingWidth: widget.leadingWidth,
+          toolbarTextStyle: widget.toolbarTextStyle,
+          titleTextStyle: widget.titleTextStyle,
+          title: widget.defaultTitle
+              ? Text(
+                  widget.mUrl,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.normal,
+                  ),
+                )
+              : widget.titleWidget,
+          leading: IconInkWell(
+            func: () {
+              Navigator.pop(context);
+            },
+            iconWidget: widget.closeIcon,
           ),
+        ),
+        body: WebView(
+          onWebViewCreated: (WebViewController webViewController) {
+            _controller.complete(webViewController);
+          },
+          initialUrl: widget.mUrl,
+          backgroundColor: widget.webViewBGColor,
+          debuggingEnabled: widget.webViewDebugging,
+          allowsInlineMediaPlayback: widget.webViewAllowsInlineMediaPlayback,
+          gestureNavigationEnabled: widget.webViewGestureNavigationEnabled,
+          zoomEnabled: widget.webViewZoomEnabled,
+        ),
 
-          /// Web view screen
-          url: widget.mUrl,
+        /// Bottom sheet screen
+        bottomNavigationBar: SizedBox(
+          height: widget.btmSheetSize,
+          child: Card(
+            color: widget.bottomNavColor,
+            margin: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+              borderRadius: widget.borderRadiusGeometry,
+              side: widget.borderSide,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                /// Go to previous link
+                IconInkWell(
+                  func: () async {
+                    WebViewController webViewController =
+                        await _controller.future;
+                    webViewController.canGoBack().then((value) {
+                      if (value) webViewController.goBack();
+                    });
+                  },
+                  iconWidget: widget.backIcon,
+                ),
 
-          /// Bottom sheet screen
-          bottomNavigationBar: SizedBox(
-            height: widget.btmSheetSize,
-            child: Card(
-              color: widget.bottomNavColor,
-              margin: EdgeInsets.zero,
-              shape: RoundedRectangleBorder(
-                borderRadius: widget.borderRadiusGeometry,
-                side: widget.borderSide,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  /// Go to previous link
-                  IconInkWell(
-                    func: () {
-                      flutterWebViewPlugin.canGoBack().then((value) {
-                        if (value) flutterWebViewPlugin.goBack();
-                      });
-                    },
-                    iconWidget: widget.backIcon,
-                  ),
+                /// Go to next link
+                IconInkWell(
+                  func: () async {
+                    WebViewController webViewController =
+                        await _controller.future;
+                    webViewController.canGoForward().then((value) {
+                      if (value) webViewController.goForward();
+                    });
+                  },
+                  iconWidget: widget.nextIcon,
+                ),
 
-                  /// Go to next link
-                  IconInkWell(
-                    func: () {
-                      flutterWebViewPlugin.canGoForward().then((value) {
-                        if (value) flutterWebViewPlugin.goForward();
-                      });
-                    },
-                    iconWidget: widget.nextIcon,
-                  ),
+                /// share the current link
+                IconInkWell(
+                  func: () {
+                    Share.share(widget.mUrl);
+                  },
+                  iconWidget: widget.shareIcon,
+                ),
 
-                  /// share the current link
-                  IconInkWell(
-                    func: () {
-                      Share.share(widget.mUrl);
-                    },
-                    iconWidget: widget.shareIcon,
-                  ),
-
-                  /// Refresh the current link
-                  IconInkWell(
-                    iconWidget: widget.refreshIcon,
-                    func: () {
-                      flutterWebViewPlugin.reload();
-                    },
-                  ),
-                ],
-              ),
+                /// Refresh the current link
+                IconInkWell(
+                  iconWidget: widget.refreshIcon,
+                  func: () async {
+                    WebViewController webViewController =
+                        await _controller.future;
+                    webViewController.reload();
+                  },
+                ),
+              ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  /// [mDispose] will dispose and hide web view and then close the page
-  void mDispose() {
-    flutterWebViewPlugin.dispose();
-    flutterWebViewPlugin.hide();
-
-    Future.delayed(const Duration(microseconds: 10), () {
-      Navigator.pop(context);
-    });
   }
 }

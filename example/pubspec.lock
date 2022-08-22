@@ -86,22 +86,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_webview_plugin:
-    dependency: transitive
-    description:
-      path: "."
-      ref: master
-      resolved-ref: "386de8cef3097226a5900dd6c959d5b70693e62a"
-      url: "https://github.com/Bhagat8533/flutter_webview_plugin"
-    source: git
-    version: "0.1.0"
   in_app_webview:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.0.3"
+    version: "0.0.4"
   js:
     dependency: transitive
     description:
@@ -310,6 +301,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
+  webview_flutter:
+    dependency: transitive
+    description:
+      name: webview_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.4"
+  webview_flutter_android:
+    dependency: transitive
+    description:
+      name: webview_flutter_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.9.5"
+  webview_flutter_platform_interface:
+    dependency: transitive
+    description:
+      name: webview_flutter_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.9.2"
+  webview_flutter_wkwebview:
+    dependency: transitive
+    description:
+      name: webview_flutter_wkwebview
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.9.3"
 sdks:
   dart: ">=2.17.3 <3.0.0"
-  flutter: ">=2.10.0"
+  flutter: ">=3.0.0"
