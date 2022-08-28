@@ -4,6 +4,14 @@ Simple in-app web view for your application.
 
 <img src="https://raw.githubusercontent.com/AbbasJafariTrax/in-app-webview/e22088c4cc0881f073c5f47589cbefe7f6414516/assets/images/browse_in.jpg" height=512px width=236px>
 
+## Features:
+
+- Launching a URL
+- Go to the previous link
+- Go to the next link
+- Share the current link
+- Refresh the current link
+
 ## Getting Started
 
 ### Usage
@@ -49,8 +57,8 @@ class _MyAppState extends State<MyApp> {
 
 ### InAppWebView parameters
 
-`mUrl` param which is loaded and displayed by web view and it will be shown on the appbar and shared by
-share button.
+`mUrl` param which is loaded and displayed by web view and it will be shown on the appbar and shared
+by share button.
 
 ```this.mUrl```
 ```Key key```
