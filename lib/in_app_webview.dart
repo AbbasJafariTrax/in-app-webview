@@ -18,6 +18,10 @@ class InAppWebView extends StatefulWidget {
   /// and share by share button
   String mUrl;
 
+  final Map<String, String>? headers;
+
+  final List<WebViewCookie> initialCookies;
+
   /// To change the direction of web view
   final TextDirection mDirection;
 
@@ -58,6 +62,8 @@ class InAppWebView extends StatefulWidget {
   InAppWebView(
     this.mUrl, {
     Key? key,
+    this.headers,
+    this.initialCookies = const <WebViewCookie>[],
     this.mDirection = TextDirection.ltr,
     this.backIcon = const IconWidget(Icons.arrow_back_ios),
     this.nextIcon = const IconWidget(Icons.arrow_forward_ios),
@@ -93,13 +99,14 @@ class InAppWebView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _InAppWebViewState createState() => _InAppWebViewState();
+  State<InAppWebView> createState() => _InAppWebViewState();
 }
 
 class _InAppWebViewState extends State<InAppWebView>
     with TickerProviderStateMixin {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
+  late final String _title = widget.mUrl;
 
   @override
   void initState() {
@@ -131,7 +138,7 @@ class _InAppWebViewState extends State<InAppWebView>
           titleTextStyle: widget.titleTextStyle,
           title: widget.defaultTitle
               ? Text(
-                  widget.mUrl,
+                  _title,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 15,
@@ -149,8 +156,12 @@ class _InAppWebViewState extends State<InAppWebView>
         body: WebView(
           onWebViewCreated: (WebViewController webViewController) {
             _controller.complete(webViewController);
+            if (widget.headers != null) {
+              webViewController.loadUrl(widget.mUrl, headers: widget.headers);
+            }
           },
-          initialUrl: widget.mUrl,
+          initialCookies: widget.initialCookies,
+          initialUrl: widget.headers != null ? null : widget.mUrl,
           backgroundColor: widget.webViewBGColor,
           debuggingEnabled: widget.webViewDebugging,
           allowsInlineMediaPlayback: widget.webViewAllowsInlineMediaPlayback,
@@ -168,56 +179,65 @@ class _InAppWebViewState extends State<InAppWebView>
               borderRadius: widget.borderRadiusGeometry,
               side: widget.borderSide,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                /// Go to previous link
-                IconInkWell(
-                  func: () async {
-                    WebViewController webViewController =
-                        await _controller.future;
-                    webViewController.canGoBack().then((value) {
-                      if (value) webViewController.goBack();
-                    });
-                  },
-                  iconWidget: widget.backIcon,
-                ),
+            child: SafeArea(
+              minimum: EdgeInsets.only(
+                  top: MediaQuery.paddingOf(context).bottom == 0 ? 0 : 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  /// Go to previous link
+                  IconInkWell(
+                    func: () async {
+                      WebViewController webViewController =
+                          await _controller.future;
+                      webViewController.canGoBack().then((value) {
+                        if (value) webViewController.goBack();
+                      });
+                    },
+                    iconWidget: widget.backIcon,
+                  ),
 
-                /// Go to next link
-                IconInkWell(
-                  func: () async {
-                    WebViewController webViewController =
-                        await _controller.future;
-                    webViewController.canGoForward().then((value) {
-                      if (value) webViewController.goForward();
-                    });
-                  },
-                  iconWidget: widget.nextIcon,
-                ),
+                  /// Go to next link
+                  IconInkWell(
+                    func: () async {
+                      WebViewController webViewController =
+                          await _controller.future;
+                      webViewController.canGoForward().then((value) {
+                        if (value) webViewController.goForward();
+                      });
+                    },
+                    iconWidget: widget.nextIcon,
+                  ),
 
-                /// share the current link
-                IconInkWell(
-                  func: () async {
-                    WebViewController webViewController =
-                        await _controller.future;
-                    String getCurrentUrl =
-                        await webViewController.currentUrl() ?? widget.mUrl;
+                  /// share the current link
+                  IconInkWell(
+                    func: () async {
+                      WebViewController webViewController =
+                          await _controller.future;
+                      String getCurrentUrl =
+                          await webViewController.currentUrl() ??
+                              widget.mUrl ??
+                              '';
 
-                    Share.share(getCurrentUrl);
-                  },
-                  iconWidget: widget.shareIcon,
-                ),
+                      if (getCurrentUrl.isNotEmpty) {
+                        Share.share(getCurrentUrl);
+                      }
+                    },
+                    iconWidget: widget.shareIcon,
+                  ),
 
-                /// Refresh the current link
-                IconInkWell(
-                  iconWidget: widget.refreshIcon,
-                  func: () async {
-                    WebViewController webViewController =
-                        await _controller.future;
-                    webViewController.reload();
-                  },
-                ),
-              ],
+                  /// Refresh the current link
+                  IconInkWell(
+                    iconWidget: widget.refreshIcon,
+                    func: () async {
+                      WebViewController webViewController =
+                          await _controller.future;
+                      webViewController.reload();
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

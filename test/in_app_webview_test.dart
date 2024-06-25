@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:in_app_webview/in_app_webview.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -23,6 +25,9 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: InAppWebView(
         "https://www.google.com/",
+        headers: const {
+          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMyLCJpc3MiOiJodHRwczovL3dpa2lhbGxlcmdpZXMubmV0L2FwaS92MS9zaWduLWluIiwiaWF0IjoxNjczNzYzNDg2LCJleHAiOjE2NzM3NzA2ODYsIm5iZiI6MTY3Mzc2MzQ4NiwianRpIjoiMUxCMk0xaG5BU3AzS2R6bCJ9.UN7j_OUeahkYZA65OWL7gT2sJQ0V4h3t7bxILc--Ob8',
+        },
         mDirection: TextDirection.ltr,
         appBarBGColor: const Color(0xFF262626),
         bottomNavColor: const Color(0xFF262626),
