@@ -9,6 +9,9 @@ import 'package:in_app_webview/widgets/IconWidget.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'in_app_cookies.dart';
+
+export 'package:in_app_webview/in_app_webview.dart';
 /// Write comment and a great docs
 /// change the name of package
 
@@ -20,7 +23,7 @@ class InAppWebView extends StatefulWidget {
 
   final Map<String, String>? headers;
 
-  final List<WebViewCookie> initialCookies;
+  final List<InAppCookies>? initialCookies;
 
   /// To change the direction of web view
   final TextDirection mDirection;
@@ -63,7 +66,7 @@ class InAppWebView extends StatefulWidget {
     this.mUrl, {
     Key? key,
     this.headers,
-    this.initialCookies = const <WebViewCookie>[],
+    this.initialCookies,
     this.mDirection = TextDirection.ltr,
     this.backIcon = const IconWidget(Icons.arrow_back_ios),
     this.nextIcon = const IconWidget(Icons.arrow_forward_ios),
@@ -154,19 +157,21 @@ class _InAppWebViewState extends State<InAppWebView>
           ),
         ),
         body: WebView(
-          onWebViewCreated: (WebViewController webViewController) {
-            _controller.complete(webViewController);
+          onWebViewCreated: (WebViewController webViewController)async {
             if (widget.headers != null) {
-              webViewController.loadUrl(widget.mUrl, headers: widget.headers);
+              await webViewController.loadUrl(widget.mUrl, headers: widget.headers);
             }
+            _controller.complete(webViewController);
           },
-          initialCookies: widget.initialCookies,
+          javascriptMode: JavascriptMode.unrestricted,
+          initialCookies: (widget.initialCookies?.isEmpty ?? true) ? <WebViewCookie>[] : widget.initialCookies!.map((e) => WebViewCookie(name: e.name, value: e.value, domain: e.domain)).toList(),
           initialUrl: widget.headers != null ? null : widget.mUrl,
           backgroundColor: widget.webViewBGColor,
           debuggingEnabled: widget.webViewDebugging,
           allowsInlineMediaPlayback: widget.webViewAllowsInlineMediaPlayback,
           gestureNavigationEnabled: widget.webViewGestureNavigationEnabled,
           zoomEnabled: widget.webViewZoomEnabled,
+          
         ),
 
         /// Bottom sheet screen
