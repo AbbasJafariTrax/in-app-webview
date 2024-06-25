@@ -12,6 +12,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'in_app_cookies.dart';
 
 export 'package:in_app_webview/in_app_webview.dart';
+
 /// Write comment and a great docs
 /// change the name of package
 
@@ -157,42 +158,40 @@ class _InAppWebViewState extends State<InAppWebView>
           ),
         ),
         body: WebView(
-          onWebViewCreated: (WebViewController webViewController)async {
+          onWebViewCreated: (WebViewController webViewController) async {
             if (widget.headers != null) {
-              await webViewController.loadUrl(widget.mUrl, headers: widget.headers);
+              await webViewController.loadUrl(widget.mUrl,
+                  headers: widget.headers);
             }
             _controller.complete(webViewController);
           },
           javascriptMode: JavascriptMode.unrestricted,
-          initialCookies: (widget.initialCookies?.isEmpty ?? true) ? <WebViewCookie>[] : widget.initialCookies!.map((e) => WebViewCookie(name: e.name, value: e.value, domain: e.domain)).toList(),
+          initialCookies: (widget.initialCookies?.isEmpty ?? true)
+              ? <WebViewCookie>[]
+              : widget.initialCookies!
+                  .map((e) => WebViewCookie(
+                      name: e.name, value: e.value, domain: e.domain))
+                  .toList(),
           initialUrl: widget.headers != null ? null : widget.mUrl,
           backgroundColor: widget.webViewBGColor,
           debuggingEnabled: widget.webViewDebugging,
           allowsInlineMediaPlayback: widget.webViewAllowsInlineMediaPlayback,
           gestureNavigationEnabled: widget.webViewGestureNavigationEnabled,
           zoomEnabled: widget.webViewZoomEnabled,
-          
         ),
 
         /// Bottom sheet screen
-        bottomNavigationBar: SizedBox(
-          height: widget.btmSheetSize,
-          child: Card(
+        bottomNavigationBar: Material(
+          child: Container(
+            height: widget.btmSheetSize,
             color: widget.bottomNavColor,
             margin: EdgeInsets.zero,
-            shape: RoundedRectangleBorder(
-              borderRadius: widget.borderRadiusGeometry,
-              side: widget.borderSide,
-            ),
-            child: SafeArea(
-              minimum: EdgeInsets.only(
-                  top: MediaQuery.paddingOf(context).bottom == 0 ? 0 : 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  /// Go to previous link
-                  IconInkWell(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                /// Go to previous link
+                Expanded(
+                  child: IconInkWell(
                     func: () async {
                       WebViewController webViewController =
                           await _controller.future;
@@ -202,9 +201,11 @@ class _InAppWebViewState extends State<InAppWebView>
                     },
                     iconWidget: widget.backIcon,
                   ),
+                ),
 
-                  /// Go to next link
-                  IconInkWell(
+                /// Go to next link
+                Expanded(
+                  child: IconInkWell(
                     func: () async {
                       WebViewController webViewController =
                           await _controller.future;
@@ -214,16 +215,16 @@ class _InAppWebViewState extends State<InAppWebView>
                     },
                     iconWidget: widget.nextIcon,
                   ),
+                ),
 
-                  /// share the current link
-                  IconInkWell(
+                /// share the current link
+                Expanded(
+                  child: IconInkWell(
                     func: () async {
                       WebViewController webViewController =
                           await _controller.future;
                       String getCurrentUrl =
-                          await webViewController.currentUrl() ??
-                              widget.mUrl ??
-                              '';
+                          await webViewController.currentUrl() ?? widget.mUrl;
 
                       if (getCurrentUrl.isNotEmpty) {
                         Share.share(getCurrentUrl);
@@ -231,9 +232,11 @@ class _InAppWebViewState extends State<InAppWebView>
                     },
                     iconWidget: widget.shareIcon,
                   ),
+                ),
 
-                  /// Refresh the current link
-                  IconInkWell(
+                /// Refresh the current link
+                Expanded(
+                  child: IconInkWell(
                     iconWidget: widget.refreshIcon,
                     func: () async {
                       WebViewController webViewController =
@@ -241,8 +244,8 @@ class _InAppWebViewState extends State<InAppWebView>
                       webViewController.reload();
                     },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
