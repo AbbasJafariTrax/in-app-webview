@@ -1,33 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:in_app_webview/in_app_cookies.dart';
 import 'package:in_app_webview/in_app_webview.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: InAppWebView(
-        "https://www.google.com/",
-        headers: const {
-          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMyLCJpc3MiOiJodHRwczovL3dpa2lhbGxlcmdpZXMubmV0L2FwaS92MS9zaWduLWluIiwiaWF0IjoxNjczNzYzNDg2LCJleHAiOjE2NzM3NzA2ODYsIm5iZiI6MTY3Mzc2MzQ4NiwianRpIjoiMUxCMk0xaG5BU3AzS2R6bCJ9.UN7j_OUeahkYZA65OWL7gT2sJQ0V4h3t7bxILc--Ob8',
-        },
+extension InAppWebviewCoodinator on BuildContext {
+  Future<T?> startInAppWebview<T>(
+    String url, {
+    String? title,
+    Map<String, String>? headers,
+    List<InAppCookies>? initialCookies,
+  }) async {
+    return Navigator.of(this).push(MaterialPageRoute(
+      builder: (context) => InAppWebView(
+        url,
+        headers: headers,
+        initialCookies: initialCookies,
         mDirection: TextDirection.ltr,
         appBarBGColor: const Color(0xFF262626),
         bottomNavColor: const Color(0xFF262626),
@@ -44,6 +30,6 @@ class _MyAppState extends State<MyApp> {
         toolbarTextStyle: const TextStyle(),
         toolbarHeight: 56,
       ),
-    );
+    ));
   }
 }

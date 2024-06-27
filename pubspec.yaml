@@ -1,6 +1,6 @@
 name: in_app_webview
 description: Launch your URL inside a in app webview, Features (Launching a URL, Go to the previous link, Go to the next link, Share the current link, Refresh the current link).
-version: 0.0.7
+version: 0.0.8
 homepage: https://github.com/AbbasJafariTrax/in-app-webview
 
 environment:
